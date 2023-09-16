@@ -1,0 +1,31 @@
+.main-content {
+  text-align: center;
+}
+
+.grid {
+  margin-top: 40px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 80%;
+  margin-left: 10%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 12px;
+  max-width: 10vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.block-number {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.trx-hash {
+  word-wrap: break-word;
+}
