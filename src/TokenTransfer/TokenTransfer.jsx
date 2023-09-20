@@ -20,6 +20,7 @@ function TokenTransfer() {
   const [transferring, setTransferring] = useState(false);
 
   useEffect(() => {
+    /** For loading the arrow (eva) icons */
     eva.replace();
   }, [transferEth, accountAddress, transferring]);
 
