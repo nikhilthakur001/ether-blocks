@@ -12,11 +12,12 @@ const signer = provider.getSigner();
 
 function TokenTransfer() {
   const [errorMessage, setErrorMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
   const [accountAddress, setAccountAddress] = useState(null);
   const [userBalance, setUserBalance] = useState(null);
   const [transferEth, setTransferEth] = useState(null);
-  const [transferAddr, setTransferAddr] = useState(null);
-  const [transferETHAmount, setTransferETHAmount] = useState(null);
+  const [transferAddr, setTransferAddr] = useState('');
+  const [transferETHAmount, setTransferETHAmount] = useState(0);
   const [transferring, setTransferring] = useState(false);
 
   useEffect(() => {
@@ -47,36 +48,50 @@ function TokenTransfer() {
   }
 
   const handleTransfer = async () => {
+    setErrorMessage(null);
     setTransferring(true);
     try {
-      await signer.sendTransaction({
+      const data = await signer.sendTransaction({
         to: transferAddr,
         value: ethers.utils.parseEther(transferETHAmount)
       });
+
       getUserLatestBalance(accountAddress);
+
+      setTransferAddr('');
+      setTransferETHAmount(0);
+      setSuccessMessage(`Transaction Hash ${data.hash}`);
+
+      setTimeout(() => {
+        setSuccessMessage(null);
+      }, 3000);
     } catch (e) {
       console.log(e);
+      setErrorMessage(e.message);
     }
     setTransferring(false);
   };
 
   const handleBackToWallet = () => {
     setTransferEth(false);
-    setTransferAddr(null);
-    setTransferETHAmount(null);
+    setTransferAddr('');
+    setTransferETHAmount(0);
+    setErrorMessage(null);
+    setSuccessMessage(null);
   }
 
   return <div className="h-screen flex flex-col justify-center items-center">
     <h2 className="text-5xl font-bold text-green-500 mb-10">Token Transfer App</h2>
     {transferEth && (
-      <button onClick={handleBackToWallet} className="-mt-5 mb-5 self-center hover:scale-110 transition-all bg-sky-600 uppercase font-semibold text-white pr-3 rounded-md flex justify-between">
+      <button onClick={handleBackToWallet} className="-mt-5 mb-10 self-center hover:scale-110 transition-all bg-sky-600 uppercase font-semibold text-white pr-3 rounded-md flex justify-between">
         <span className='bg-sky-700 p-3 rounded-md rounded-tr-none rounded-br-none'>
           <span data-eva="arrow-back-outline" data-eva-fill="#fff" />
         </span>
         <span className='mt-1 p-3 text-sm'>Back to My Wallet</span>
       </button>
     )}
-    <div className="text-red-500 mb-10">{errorMessage}</div>
+    {errorMessage && <div className="text-red-500 mb-10 px-10">ERROR: {errorMessage}</div>}
+    {successMessage && <div className="text-green-500 mb-10 px-10">SUCCESS: {successMessage}</div>}
 
     {(accountAddress && !transferEth) && (<div className='flex flex-col'>
       <div>
