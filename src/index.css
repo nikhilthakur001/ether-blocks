@@ -1,3 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
-  font-family: "Varela Round", sans-serif;
+  font-family: "Orbitron", sans-serif;
+}
+
+* {
+  letter-spacing: 0.05em;
 }
