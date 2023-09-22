@@ -1,5 +1,5 @@
-import TokenTransfer from "./TokenTransfer/TokenTransfer";
+import ContractTokenTransfer from "./ContractTokenTransfer/ContractTokenTransfer";
 
 export default function App() {
-  return <TokenTransfer />;
+  return <ContractTokenTransfer />;
 }
